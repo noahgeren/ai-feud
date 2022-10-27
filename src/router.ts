@@ -26,5 +26,6 @@ router.beforeEach(async (to) => {
         if(!storeSetup) {
             return "/";
         }
+        // TODO: Make sure router is in correct state
     }
 })
