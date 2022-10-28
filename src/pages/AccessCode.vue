@@ -5,25 +5,25 @@ const props = defineProps<{
     start: boolean
 }>();
 
-const passcode = ref<string>();
+const accessCode = ref<string>();
 
 const apiKey = ref<string>();
 
 const charset = "ABDEJKLMNOPQRVWXYZ";
 
-const randomPasscode = () => {
+const randomaccessCode = () => {
     let temp = "";
     for (let i = 0; i < 5; i++) {
         temp += charset.at(Math.random() * charset.length);
     }
-    passcode.value = temp;
+    accessCode.value = temp;
 };
 
 const error = ref(false);
 
 const valid = computed(() => {
-    const val = passcode.value;
-    return val && val.length >= 4 && val.length <= 9 && !val.includes("/") && (!props.start || apiKey.value);
+    const val = accessCode.value;
+    return val && !val.includes("/") && (!props.start || apiKey.value);
 });
 </script>
 <template>
@@ -35,15 +35,15 @@ const valid = computed(() => {
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                <span v-if="start">That passcode cannot be used at this time.</span>
-                <span v-else>No game with that passcode could not be found.</span>
+                <span v-if="start">That access code cannot be used at this time.</span>
+                <span v-else>No game with that access code could not be found.</span>
             </div>
         </div>
         <div class="form-control w-full shadow-lg my-2">
             <div :class="{'input-group input-group-lg': start}">
-                <input v-model="passcode" type="text" placeholder="Passcode (must be between 4 and 9 characters)"
+                <input v-model="accessCode" type="text" placeholder="Access code"
                     class="input input-lg w-full input-bordered" @input="error = false" />
-                <button v-if="start" @click="randomPasscode" class="btn btn-lg btn-secondary">
+                <button v-if="start" @click="randomaccessCode" class="btn btn-lg btn-secondary">
                     Random
                 </button>
             </div>

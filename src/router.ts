@@ -2,12 +2,12 @@ import { createRouter, createWebHistory, RouteRecordRaw} from "vue-router";
 import { setupStore } from "./store";
 
 import Index from "./pages/Index.vue";
-import Passcode from "./pages/Passcode.vue";
+import AccessCode from "./pages/AccessCode.vue";
 
 const routes: RouteRecordRaw[] = [
     { path: "/", component: Index },
-    { path: "/start", component: Passcode, props: { start: true }},
-    { path: "/join", component: Passcode, props: { start: false }},
+    { path: "/start", component: AccessCode, props: { start: true }},
+    { path: "/join", component: AccessCode, props: { start: false }},
 ];
 
 export const router = createRouter({
@@ -19,7 +19,7 @@ export const router = createRouter({
 let storeSetup = false;
 router.beforeEach(async (to) => {
     if(to.path.startsWith("/game") && !storeSetup) {
-        storeSetup = await setupStore(to.params.id as string) !== false;
+        storeSetup = await setupStore((to.params.id as string).toUpperCase()) !== false;
         if(!storeSetup) {
             return "/";
         }
