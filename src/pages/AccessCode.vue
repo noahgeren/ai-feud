@@ -9,6 +9,8 @@ const accessCode = ref<string>();
 
 const apiKey = ref<string>();
 
+const nickname = ref<string>();
+
 const charset = "ABDEJKLMNOPQRVWXYZ";
 
 const randomaccessCode = () => {
@@ -23,7 +25,7 @@ const error = ref(false);
 
 const valid = computed(() => {
     const val = accessCode.value;
-    return val && !val.includes("/") && (!props.start || apiKey.value);
+    return val && !val.includes("/") && (apiKey.value || nickname.value);
 });
 </script>
 <template>
@@ -40,7 +42,7 @@ const valid = computed(() => {
             </div>
         </div>
         <div class="form-control w-full shadow-lg my-2">
-            <div :class="{'input-group input-group-lg': start}">
+            <div :class="{ 'input-group input-group-lg': start }">
                 <input v-model="accessCode" type="text" placeholder="Access code"
                     class="input input-lg w-full input-bordered" @input="error = false" />
                 <button v-if="start" @click="randomaccessCode" class="btn btn-lg btn-secondary">
@@ -48,12 +50,14 @@ const valid = computed(() => {
                 </button>
             </div>
         </div>
-        <div class="form-control w-full shadow-lg my-2" v-if="start">
-            <input v-model="apiKey" type="text" placeholder="OpenAI API Key"
-                    class="input input-lg w-full input-bordered" />
+        <div class="form-control w-full shadow-lg my-2">
+            <input v-if="start" v-model="apiKey" type="text" placeholder="OpenAI API Key"
+                class="input input-lg w-full input-bordered" />
+            <input v-else v-model="nickname" type="text" placeholder="Nickname"
+                class="input input-lg w-full input-bordered" />
         </div>
         <div class="flex justify-center my-2">
-            <button class="btn btn-primary btn-lg" :class="{'shadow-lg': valid}" :disabled="!valid || error">
+            <button class="btn btn-primary btn-lg" :class="{ 'shadow-lg': valid }" :disabled="!valid || error">
                 {{ start ? 'Start' : 'Join' }} Game
             </button>
         </div>
