@@ -1,6 +1,6 @@
 <script lang="ts" setup></script>
 <template>
-    <div class="hero min-h-screen bg-base-200">
+    <div class="hero min-h-full">
         <div class="hero-content text-center">
             <div class="max-w-lg">
                 <h1 class="text-8xl font-bold">AI Feud</h1>
