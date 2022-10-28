@@ -2,15 +2,12 @@ import { createRouter, createWebHistory, RouteRecordRaw} from "vue-router";
 import { setupStore } from "./store";
 
 import Index from "./pages/Index.vue";
-import StartGame from "./pages/admin/StartGame.vue";
-import JoinGame from "./pages/player/JoinGame.vue";
-import Question from "./pages/common/Question.vue";
+import Passcode from "./pages/Passcode.vue";
 
 const routes: RouteRecordRaw[] = [
     { path: "/", component: Index },
-    { path: "/start", component: StartGame},
-    { path: "/join", component: JoinGame },
-    { path: "/game/:id/question", component: Question }
+    { path: "/start", component: Passcode, props: { start: true }},
+    { path: "/join", component: Passcode, props: { start: false }},
 ];
 
 export const router = createRouter({
