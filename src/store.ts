@@ -48,7 +48,7 @@ export const setupStore = async (gameId: string): Promise<boolean | void> => {
     onAuthStateChanged(auth, (newUser) => {
         if(newUser) user.value = newUser;
     });
-    // start tracking game
+
     const gameRef = dbRef(db, `/games/${gameId}/`);
     const data = (await get(gameRef)).val();
     // stop if data is not a game, user is not logged in, 
@@ -59,6 +59,7 @@ export const setupStore = async (gameId: string): Promise<boolean | void> => {
     }
     game.value = {...data};
     isAdmin.value = user.value.uid === data.admin;
+    // start tracking game
     onValue(gameRef, (snapshot) => {
         game.value = {...snapshot.val()};
     });

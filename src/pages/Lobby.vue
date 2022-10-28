@@ -1,10 +1,11 @@
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { game, isAdmin } from '../store';
 
 const teamOneName = ref("Team One");
 const teamTwoName = ref("Team Two");
 
+const ready = computed(() => Object.keys(game.value.players || {}).length >= 2);
 </script>
 <template>
 <div class="flex flex-col w-full mb-5">
@@ -16,7 +17,7 @@ const teamTwoName = ref("Team Two");
     </div>
     <div class="flex flex-grow max-w-3xl w-full self-center mt-5 mb-3">
         <div class="w-1/2 px-5 border-r">
-            <input v-model="teamOneName" type="text" class="input input-lg input-bordered w-full" />
+            <input v-model="teamOneName" type="text" class="input input-lg input-bordered shadow-lg w-full" />
             <ul>
                 <li class="text-xl py-2 px-6">Player 1</li>
                 <li class="text-xl py-2 px-6">Player 2</li>
@@ -24,7 +25,7 @@ const teamTwoName = ref("Team Two");
             </ul>
         </div>
         <div class="w-1/2 px-5 border-l">
-            <input v-model="teamTwoName" type="text" class="input input-lg input-bordered w-full" />
+            <input v-model="teamTwoName" type="text" class="input input-lg input-bordered shadow-lg w-full" />
             <ul>
                 <li class="text-xl py-2 px-6">Player 1</li>
                 <li class="text-xl py-2 px-6">Player 2</li>
@@ -32,8 +33,8 @@ const teamTwoName = ref("Team Two");
             </ul>
         </div>
     </div>
-    <div class="text-center" v-if="isAdmin && Object.keys(game.players || {}).length > 2">
-        <button class="btn btn-lg btn-primary shadow-lg mb-3">Start Game</button>
+    <div class="text-center" v-if="isAdmin">
+        <button class="btn btn-lg btn-primary mb-3" :class="{'shadow-lg': ready}" :disabled="!ready">Start Game</button>
     </div>
 </div>
 </template>

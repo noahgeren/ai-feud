@@ -20,7 +20,7 @@ export const router = createRouter({
 // Make sure store is setup before entering any game routes
 let storeSetup = false;
 router.beforeEach(async (to) => {
-    if(to.path.startsWith("/game") && !storeSetup) {
+    if(to.path.startsWith("/game/") && !storeSetup && to.params.id) {
         storeSetup = await setupStore((to.params.id as string).toUpperCase()) !== false;
         if(!storeSetup) {
             return "/";
