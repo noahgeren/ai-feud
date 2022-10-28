@@ -16,7 +16,7 @@ const app = initializeApp({
 const auth = getAuth(app);
 const db = getDatabase(app);
 
-export const user = ref<User | null>(auth.currentUser);
+export const user = ref<User>(auth.currentUser as User);
 
 export interface Game {
     id: string;
@@ -39,13 +39,14 @@ export interface Game {
 };
 const isGame = (arg: any): arg is Game => arg.id !== undefined;
 
-export const game = ref<Game | null>(null);
+export const game = ref<Game>({} as Game);
+export const isAdmin = ref(false);
 
 export const setupStore = async (gameId: string): Promise<boolean | void> => {
     // login user and track changes
     user.value = (await signInAnonymously(auth)).user;
     onAuthStateChanged(auth, (newUser) => {
-        user.value = newUser;
+        if(newUser) user.value = newUser;
     });
     // start tracking game
     const gameRef = dbRef(db, `/games/${gameId}/`);
@@ -57,6 +58,7 @@ export const setupStore = async (gameId: string): Promise<boolean | void> => {
         return false;
     }
     game.value = {...data};
+    isAdmin.value = user.value.uid === data.admin;
     onValue(gameRef, (snapshot) => {
         game.value = {...snapshot.val()};
     });

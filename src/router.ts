@@ -3,11 +3,13 @@ import { setupStore } from "./store";
 
 import Index from "./pages/Index.vue";
 import AccessCode from "./pages/AccessCode.vue";
+import Lobby from "./pages/Lobby.vue";
 
 const routes: RouteRecordRaw[] = [
     { path: "/", component: Index },
     { path: "/start", component: AccessCode, props: { start: true }},
     { path: "/join", component: AccessCode, props: { start: false }},
+    { path: "/game/:id/lobby", component: Lobby }
 ];
 
 export const router = createRouter({
