@@ -5,6 +5,7 @@ import Index from "./pages/Index.vue";
 import AccessCode from "./pages/AccessCode.vue";
 import Lobby from "./pages/Lobby.vue";
 import Prompt from "./pages/Prompt.vue";
+import NotFound from "./pages/NotFound.vue";
 
 const routes: RouteRecordRaw[] = [
     { path: "/", component: Index },
@@ -12,6 +13,7 @@ const routes: RouteRecordRaw[] = [
     { path: "/join", component: AccessCode, props: { start: false }},
     { path: "/game/:id/lobby", component: Lobby },
     { path: "/game/:id/prompt", component: Prompt },
+    { path: "/:pathMatch(.*)*", component: NotFound }
 ];
 
 export const router = createRouter({
