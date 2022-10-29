@@ -10,12 +10,12 @@ const question = ref<string>();
     <div v-if="isAdmin" class="flex flex-col self-center items-center w-full">
         <h2 class="text-6xl mb-4">Team one is thinking of a prompt.</h2>
         <div class="input-group justify-center">
-            <span class="px-6 font-semibold">List 6</span>
+            <span class="px-6 font-semibold">List 6:</span>
             <input
             v-model="question"
             id="question"
             type="text"
-            placeholder="Example: ways to relax on the weekend."
+            placeholder="Ex. ways to relax on the weekend."
             class="input input-lg input-bordered shadow-lg max-w-lg w-full" maxlength="50" />
         </div>
         <div class="my-4">
