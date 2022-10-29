@@ -50,23 +50,24 @@ export const setupStore = async (gameId: string): Promise<boolean | void> => {
     // login user and track changes
     user.value = (await signInAnonymously(auth)).user;
     onAuthStateChanged(auth, (newUser) => {
-        if(newUser) user.value = newUser;
+        if (newUser) user.value = newUser;
     });
 
     const gameRef = dbRef(db, `/games/${gameId}/`);
     const data = (await get(gameRef)).val();
     // stop if data is not a game, user is not logged in, 
     // game has no players, or this user is not an admin or player.
-    if(!isGame(data) || !user.value || !data.players || 
-            (data.admin !== user.value.uid && !(player.value = data.players[user.value.uid]))) {
+    if (!isGame(data) || !user.value ||
+        (data.admin !== user.value.uid && 
+            (!data.players || !(player.value = data.players[user.value.uid])))) {
         return false;
     }
-    game.value = {...data};
+    game.value = { ...data };
     isAdmin.value = user.value.uid === data.admin;
     // start tracking game
     onValue(gameRef, (snapshot) => {
-        game.value = {...snapshot.val()};
-        if(!isAdmin.value && game.value.players) {
+        game.value = { ...snapshot.val() };
+        if (!isAdmin.value && game.value.players) {
             player.value = game.value.players[user.value.uid]
         }
     });
