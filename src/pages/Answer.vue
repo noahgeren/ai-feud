@@ -19,9 +19,14 @@ const data = ["Watch a movie", "Go for a walk", "Have a picnic", "Go to the beac
             </div>
         </div>
         <h1 class="text-4xl text-center">Noah is thinking of an answer</h1>
-        <div class="flex justify-center items-center my-3">
-            <div v-for="idx in 3" class="border-4 border-error rounded-xl px-3 mx-3 text-9xl text-error" :class="{hidden: idx > 1}">X</div>
-            <button class="btn btn-lg btn-error absolute right-16">Incorrect</button>
+        <div class="grid grid-cols-1  md:grid-cols-3 py-4 px-14">
+            <div></div>
+            <div class="w-full flex flex-row justify-center">
+                <div v-for="idx in 3" class="border-4 border-error rounded-xl px-3 mx-3 text-9xl text-error" :class="{hidden: idx > 3}">X</div>
+            </div>
+            <div class="flex justify-center md:justify-end items-center mt-3 md:mt-0">
+                <button class="btn btn-lg btn-error">Incorrect</button>
+            </div>
         </div>
     </div>
 </template>
