@@ -18,17 +18,20 @@ const db = getDatabase(app);
 
 export const user = ref<User>(auth.currentUser as User);
 
+export interface Player {
+    name: string;
+    answer?: string;
+    team?: number;
+}
+
 export interface Game {
     id: string;
     admin: string;
     created: number | object;
     question?: string;
+    round: number;
     players?: {
-        [key: string]: {
-            name: string;
-            answer?: string;
-            team?: number;
-        }
+        [key: string]: Player
     };
     teams?: [{
         name: string;
@@ -41,6 +44,7 @@ const isGame = (arg: any): arg is Game => arg.id !== undefined;
 
 export const game = ref<Game>({} as Game);
 export const isAdmin = ref(false);
+export const player = ref<Player>();
 
 export const setupStore = async (gameId: string): Promise<boolean | void> => {
     // login user and track changes
@@ -54,7 +58,7 @@ export const setupStore = async (gameId: string): Promise<boolean | void> => {
     // stop if data is not a game, user is not logged in, 
     // game has no players, or this user is not an admin or player.
     if(!isGame(data) || !user.value || !data.players || 
-            (data.admin !== user.value.uid && !data.players[user.value.uid])) {
+            (data.admin !== user.value.uid && !(player.value = data.players[user.value.uid]))) {
         return false;
     }
     game.value = {...data};
@@ -62,5 +66,8 @@ export const setupStore = async (gameId: string): Promise<boolean | void> => {
     // start tracking game
     onValue(gameRef, (snapshot) => {
         game.value = {...snapshot.val()};
+        if(!isAdmin.value && game.value.players) {
+            player.value = game.value.players[user.value.uid]
+        }
     });
 };

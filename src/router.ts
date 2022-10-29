@@ -4,12 +4,14 @@ import { setupStore } from "./store";
 import Index from "./pages/Index.vue";
 import AccessCode from "./pages/AccessCode.vue";
 import Lobby from "./pages/Lobby.vue";
+import Prompt from "./pages/Prompt.vue";
 
 const routes: RouteRecordRaw[] = [
     { path: "/", component: Index },
     { path: "/start", component: AccessCode, props: { start: true }},
     { path: "/join", component: AccessCode, props: { start: false }},
-    { path: "/game/:id/lobby", component: Lobby }
+    { path: "/game/:id/lobby", component: Lobby },
+    { path: "/game/:id/prompt", component: Prompt },
 ];
 
 export const router = createRouter({
